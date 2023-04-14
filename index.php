@@ -5,7 +5,7 @@
     Date: April 12 2023
     Description: The index file for my final Project.
 ****************/
-
+// testing commit test
 require('connect.php');
 
 $statement = $db->query("SELECT * FROM review ORDER BY id DESC LIMIT 5");
@@ -62,15 +62,11 @@ $review = $statement->fetchAll();
       </nav>
     </div>
   </header>
-
   <!-- ======= Hero Section ======= -->
   <section id="hero">
     <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
-
       <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
-
       <div class="carousel-inner" role="listbox">
-
         <!-- Slide 1 -->
         <div class="carousel-item active" style="background-image: url(css/img/slide/slide1.jpg)">
           <div class="carousel-container">
