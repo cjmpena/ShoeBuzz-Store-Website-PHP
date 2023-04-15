@@ -65,11 +65,12 @@ $shoes = $statement->fetch();
         <div class="blog_post">
             <br><h2><a href="edit.php?id=<?= $shoes['id'] ?>"><?= $shoes['headline'] ?></a></h2>
             <h3>$<?= $shoes['price'] ?></h3>
+            <h4>Size <?= $shoes['size'] ?></h4>
             <?php if(!empty($shoes['image'])): ?>
                 <div class="thumbnail-container">
                     <img class="shoe-thumbnail" src="uploads/<?= $shoes['image'] ?>" alt="<?= $shoes['headline'] ?>">
                 </div>
-            <?php endif ?>
+            <?php endif ?> 
             <p>
                 <small>
                     Posted at: <?= date("F d, Y, g:i a", strtotime($shoes['date'])) ?>
