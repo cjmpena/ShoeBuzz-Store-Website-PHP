@@ -34,7 +34,6 @@ $review = $statement->fetchAll();
   <header id="header" class="fixed-top header-inner-pages">
     <div class="container d-flex align-items-center justify-content-between">
       <h1 class="logo"><a href="index.php">John's ShoeBuzz Shop</a></h1>
-      <?php require('header.php') ?>
       <nav id="navbar" class="navbar">
         <ul class="nav-menu">
           <li><a href="index.php" class='active'>Main BuzzPage</a></li>
@@ -59,6 +58,7 @@ $review = $statement->fetchAll();
               <li><a href="categories.php">Add ShoeCategories</a></li>
             </ul>
           </li>
+          <li><div class="header-nav"><?php require('header.php') ?></div></li>
         </ul>
       </nav>
     </div>
