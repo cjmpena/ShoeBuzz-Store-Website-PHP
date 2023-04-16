@@ -19,7 +19,7 @@ $review = $statement->fetchAll();
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>John's ShoeBuzz Store</title>
+  <title>The ShoeBuzz Store</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="images/buzzicon.png" type="image/x-icon">
@@ -33,7 +33,7 @@ $review = $statement->fetchAll();
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top header-inner-pages">
     <div class="container d-flex align-items-center justify-content-between">
-      <h1 class="logo"><a href="index.php">John's ShoeBuzz Shop</a></h1>
+      <h1 class="logo"><a href="index.php">The ShoeBuzz Shop</a></h1>
       <nav id="navbar" class="navbar">
         <ul class="nav-menu">
           <li><a href="index.php" class='active'>Main BuzzPage</a></li>
@@ -58,6 +58,7 @@ $review = $statement->fetchAll();
               <li><a href="categories.php">Add ShoeCategories</a></li>
             </ul>
           </li>
+          <li><a href="#"></li>
           <li><div class="header-nav"><?php require('header.php') ?></div></li>
         </ul>
       </nav>
@@ -72,7 +73,7 @@ $review = $statement->fetchAll();
         <div class="carousel-item active" style="background-image: url(css/img/slide/slide1.jpg)">
           <div class="carousel-container">
             <div class="container">
-              <h2>Welcome to <span>John's ShoeBuzz Shop</span></h2>
+              <h2>Welcome to the <span>ShoeBuzz Shop</span></h2>
               <h3>By: Carla Jane Manansala</h3>
               <p>In the heart of downtown Winnipeg, this shop is for shoe lovers and shoe collectors who want to connect with other sneaker heads in the community.</p>
             </div>

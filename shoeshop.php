@@ -24,12 +24,12 @@ $shoes = $statement->fetchAll();
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="smoothscroll.js"></script>
-    <title>John's ShoeBuzz Shop</title>
+    <title>The ShoeBuzz Shop</title>
 </head>
 <body>
     <header id="header" class="fixed-top header-inner-pages">
         <div class="container d-flex align-items-center justify-content-between">
-        <h1 class="logo"><a href="index.php">John's ShoeBuzz Shop</a></h1>
+        <h1 class="logo"><a href="index.php">The ShoeBuzz Shop</a></h1>
         <nav id="navbar" class="navbar">
             <ul class="nav-menu">
             <li><a href="index.php">Main BuzzPage</a></li>
@@ -54,6 +54,8 @@ $shoes = $statement->fetchAll();
                 <li><a href="categories.php">Add ShoeCategories</a></li>
                 </ul>
             </li>
+            <li><a href="#"></li>
+            <li><div class="header-nav"><?php require('header.php') ?></div></li>
             </ul>
         </nav>
         </div>
