@@ -90,6 +90,27 @@ button[type=submit]:hover {
   background: #cc2828;
 }
 
+.search-container input[type="submit"] {
+  background: #c62525;
+  border: 2px solid #f31f1f;
+  padding: 5px 9px;
+  transition: 0.4s;
+  color: #fff;
+}
+
+.header-nav select[name="shoecategory"]{
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  padding: 3px;
+  border: 1px solid #000000;
+  background-color: #fffdfd;
+  color: #333;
+  border-radius: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
 .update-btn {
   margin-right: 10px; /* Adds some space between the buttons */
   float: left; /* Floats the button to the left */
@@ -143,7 +164,7 @@ button[type=submit]:hover {
   max-height: 40px;
 }
 
-/*--------------------------------------------------------------
+/*---------------------------------------------------------
 # Navigation Menu
 --------------------------------------------------------------*/
 /**
