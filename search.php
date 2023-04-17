@@ -19,7 +19,7 @@ if ($_POST['shoecategory'] !== '') {
     $query     = "SELECT * FROM shoes WHERE category_id = '$shoecategory' AND headline LIKE '%{$keyword}%'";
     $statement = $db->prepare($query);
 } else {
-    $query     = "SELECT * FROM shoes WHERE headline LIKE '%{$keyword}%'";
+    $query     = "SELECT * FROM shoes WHERE headline LIKE '%{$keyword}%'  ORDER BY price DESC";
     $statement = $db->prepare($query);
 }
 
@@ -33,13 +33,13 @@ if ($_POST['shoecategory'] !== '') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
   <link href="css/stylesheet/style.css" rel="stylesheet">
-  <title>Shoe Search Results</title>
+  <title>The ShoeBuzz Shop - Shoe Search Results</title>
 </head>
 <body>
 <body>
     <header id="header" class="fixed-top header-inner-pages">
         <div class="container d-flex align-items-center justify-content-between">
-        <h1 class="logo"><a href="index.php">John's ShoeBuzz Shop</a></h1>
+        <h1 class="logo"><a href="index.php">The ShoeBuzz Shop</a></h1>
         <nav id="navbar" class="navbar">
             <ul class="nav-menu">
             <li><a href="index.php">Main BuzzPage</a></li>
@@ -69,12 +69,31 @@ if ($_POST['shoecategory'] !== '') {
         </div>
     </header>
     <div class="section-title">
-        <?php if ($statement->execute()): ?>
-            <h1>'<?= $keyword ?>' has <?= $statement->rowCount() ?> result(s).</h1>
-            <?php while($row = $statement->fetch()): ?>
-                <br><h2><a href="fullpost.php?id=<?= $row['id'] ?>"><?= $row['headline'] ?></a></h2><br>
-            <?php endwhile ?>
-        <?php endif ?>
+    <?php if ($statement->execute()): ?>
+        <h1>'<?= $keyword ?>' has <?= $statement->rowCount() ?> result(s).</h1>
+        <?php while($row = $statement->fetch()): ?>
+            <br><h2><a href="edit.php?id=<?= $row['id'] ?>"><?= $row['headline'] ?></a></h2>
+            <h3>$<?= $row['price'] ?></h3>
+            <h4>Size <?= $row['size'] ?></h4>
+            <div>
+                <?php if(!empty($row['image'])): ?>
+                    <div class="thumbnail-container">
+                        <img class="shoe-thumbnail" src="uploads/<?= $row['image'] ?>" alt="<?= $row['headline'] ?>">
+                    </div>
+                <?php endif ?>
+                <?php $truncated_content = substr($row['content'], 0, 200) . '...'; ?>
+                <?php if(strlen($row['content']) > 200 ): ?>
+                    <p><?= $truncated_content ?></p><h2><a href= "fullpost.php?id=<?= $row['id'] ?>">Full Post</a></h2>
+                <?php else: ?>
+                    <p><?= $row['content'] ?></p>
+                    <small>
+                        Posted at: <?= date("F d, Y, g:i a", strtotime($row['date'])) ?>
+                    </small><br>
+                <?php endif ?>
+            </div>
+        <?php endwhile ?>
+    <?php endif ?>
+
     </div>
     <footer id="footer">
     <div class="footer-top">
