@@ -18,7 +18,7 @@ if (isset($_GET['order'])) {
 } else {
     $statement = $db->query("SELECT * FROM shoes ORDER BY id DESC LIMIT 20");
 }
-$shoes = $statement->fetchAll();
+$shoes = $statement->fetchAll(); 
 
 ?>
 
