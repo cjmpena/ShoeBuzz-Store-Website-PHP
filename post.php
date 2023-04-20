@@ -10,6 +10,7 @@
 require('connect.php');
 require('authenticate.php');
 
+// Ordering the list in the order by name.
 $query = "SELECT * FROM shoecategory";
 
 $statement = $db->prepare($query);
@@ -89,13 +90,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="icon" href="images/buzzicon.png" type="image/x-icon">
     <link href="css/stylesheet/style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-    <title>John's Post Area</title>
+    <title>The Post Area</title>
 </head>
 <body>
     <!-- Remember that alternative syntax is good and html inside php is bad -->
     <header id="header" class="fixed-top header-inner-pages">
         <div class="container d-flex align-items-center justify-content-between">
-        <h1 class="logo"><a href="index.php">John's ShoeBuzz Shop</a></h1>
+        <h1 class="logo"><a href="index.php">The ShoeBuzz Shop</a></h1>
         <nav id="navbar" class="navbar">
             <ul class="nav-menu">
             <li><a href="index.php">Main BuzzPage</a></li>

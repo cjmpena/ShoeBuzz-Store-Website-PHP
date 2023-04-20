@@ -5,7 +5,6 @@
     Date: April 10 2023
     Description: The thank you page file for my final Project after user submits message.
 ****************/
-
 if(isset($_POST['fullname'])){
     $fullname = "Thanks for reaching out to BuzzStaff, {$_POST['fullname']}";
 }
@@ -50,8 +49,6 @@ if(isset($_POST['fullname'])){
                 <li><a href="categories.php">Add ShoeCategories</a></li>
                 </ul>
             </li>
-            <li><a href="#"></li>
-            <li><div class="header-nav"><?php require('header.php') ?></div></li>
             </ul>
         </nav>
         </div>

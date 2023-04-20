@@ -11,6 +11,15 @@ require('connect.php');
 $statement = $db->query("SELECT * FROM shoes ORDER BY id DESC LIMIT 20");
 $shoes = $statement->fetchAll();
 
+// Check if the form has been submitted
+if (isset($_GET['order'])) {
+    $order = $_GET['order'];
+    $statement = $db->query("SELECT * FROM shoes ORDER BY $order DESC LIMIT 20");
+} else {
+    $statement = $db->query("SELECT * FROM shoes ORDER BY id DESC LIMIT 20");
+}
+$shoes = $statement->fetchAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -60,34 +69,43 @@ $shoes = $statement->fetchAll();
         </nav>
         </div>
     </header>
+    <form method="get" class="search-container">
+        <label for="order">Sort by:</label>
+        <select name="order" id="order">
+            <option value="headline">ShoeName</option>
+            <option value="date">Date</option>
+            <option value="price">Price</option>
+            <option value="size">ShoeSize</option>
+        </select>
+        <input type="submit">
     </form>
-        <?php if(empty($shoes)): ?>
-            <h4>No content submitted.</h4>
-        <?php else: ?>
-            <div class="section-title">
-                <?php foreach($shoes as $shoess): ?>
-                    <br><h2><a href="edit.php?id=<?= $shoess['id'] ?>"><?= $shoess['headline'] ?></a></h2>
-                    <h3>$<?= $shoess['price'] ?></h3>
-                    <h4>Size <?= $shoess['size'] ?></h4>
-                    <div>
-                        <?php if(!empty($shoess['image'])): ?>
-                            <div class="thumbnail-container">
-                                <img class="shoe-thumbnail" src="uploads/<?= $shoess['image'] ?>" alt="<?= $shoess['headline'] ?>">
-                            </div>
-                        <?php endif ?>
-                        <?php $truncated_content = substr($shoess['content'], 0, 200) . '...'; ?>
-                        <?php if(strlen($shoess['content']) > 200 ): ?>
-                            <p><?= $truncated_content ?></p><h2><a href= "fullpost.php?id=<?= $shoess['id'] ?>">Full Post</a></h2>
-                        <?php else: ?>
-                            <p><?= $shoess['content'] ?></p>
-                            <small>
-                                Posted at: <?= date("F d, Y, g:i a", strtotime($shoess['date'])) ?>
-                            </small>
-                        <?php endif ?>
-                    </div>
-                <?php endforeach ?>
-            </div>
-        <?php endif ?>
+    <?php if(empty($shoes)): ?>
+        <h4>No content submitted.</h4>
+    <?php else: ?>
+        <div class="section-title">
+            <?php foreach($shoes as $shoess): ?>
+                <br><h2><a href="edit.php?id=<?= $shoess['id'] ?>"><?= $shoess['headline'] ?></a></h2>
+                <h3>$<?= $shoess['price'] ?></h3>
+                <h4>Size <?= $shoess['size'] ?></h4>
+                <div>
+                    <?php if(!empty($shoess['image'])): ?>
+                        <div class="thumbnail-container">
+                            <img class="shoe-thumbnail" src="uploads/<?= $shoess['image'] ?>" alt="<?= $shoess['headline'] ?>">
+                        </div>
+                    <?php endif ?>
+                    <?php $truncated_content = substr($shoess['content'], 0, 200) . '...'; ?>
+                    <?php if(strlen($shoess['content']) > 200 ): ?>
+                        <p><?= $truncated_content ?></p><h2><a href= "fullpost.php?id=<?= $shoess['id'] ?>">Full Post</a></h2>
+                    <?php else: ?>
+                        <p><?= $shoess['content'] ?></p>
+                        <small>
+                            Posted at: <?= date("F d, Y, g:i a", strtotime($shoess['date'])) ?>
+                        </small>
+                    <?php endif ?>
+                </div>
+            <?php endforeach ?>
+        </div>
+    <?php endif ?>
     <!-- ======= Footer ======= -->
     <footer id="footer">
     <div class="footer-top">
