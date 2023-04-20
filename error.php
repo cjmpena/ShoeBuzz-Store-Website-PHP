@@ -23,32 +23,35 @@ require('connect.php');
 <body>
     <header id="header" class="fixed-top header-inner-pages">
         <div class="container d-flex align-items-center justify-content-between">
-            <h1 class="logo"><a href="index.php">John's ShoeBuzz Shop</a></h1>
-            <nav id="navbar" class="navbar">
-                <ul class="nav-menu">
-                <li><a href="index.php">Main BuzzPage</a></li>
-                <li class="dropdown"><a href="#"><span>ShoeShop</span> <i class="bi bi-chevron-right"></i></a>
-                    <ul>
-                    <li><a href="shoeshop.php">ShoeShop Page</a></li>
-                    <li><a href="shoecategories.php">Categories</a></li>
-                    <li><a href="sizing.php">Sizing Comparison</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown"><a href="#"><span>BuzzFeedback</span> <i class="bi bi-chevron-right"></i></a>
-                    <ul>
-                    <li><a href="index.php#reviews">Reviews and Comments</a></li>
-                    <li><a href="review.php">Leave a Review or Comment!</a></li>
-                    </ul>
-                </li>
-                <li><a href="index.php#contact">Questions? Send us A Message!</a></li>
-                <li class="dropdown"><a href="#"><span>Admin</span> <i class="bi bi-chevron-right"></i></a>
-                    <ul>
-                    <li><a href="post.php">Post For ShoeShop</a></li>
-                    <li><a href="categories.php">Add ShoeCategories</a></li>
-                    </ul>
-                </li>
+        <h1 class="logo"><a href="index.php">The ShoeBuzz Shop</a></h1>
+        <nav id="navbar" class="navbar">
+            <ul class="nav-menu">
+            <li><a href="index.php">Main BuzzPage</a></li>
+            <li class="dropdown"><a href="#"><span>ShoeShop</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                <li><a href="shoeshop.php">ShoeShop Page</a></li>
+                <li><a href="shoecategories.php">Categories</a></li>
+                <li><a href="sizing.php">Sizing Comparison</a></li>
                 </ul>
-            </nav>
+            </li>
+            <li class="dropdown"><a href="#"><span>BuzzFeedback</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                <li><a href="index.php#reviews">Reviews and Comments</a></li>
+                <li><a href="review.php">Leave a Review or Comment!</a></li>
+                </ul>
+            </li>
+            <li><a href="index.php#contact">Questions? Send us A Message!</a></li>
+            <li><a href="#footer">BuzzStaff Contact Information</a></li>
+            <li class="dropdown"><a href="#"><span>Admin</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                <li><a href="post.php">Post For ShoeShop</a></li>
+                <li><a href="categories.php">Add ShoeCategories</a></li>
+                </ul>
+            </li>
+            <li><a href="#"></li>
+            <li><div class="header-nav"><?php require('header.php') ?></div></li>
+            </ul>
+        </nav>
         </div>
     </header>
     <div>
