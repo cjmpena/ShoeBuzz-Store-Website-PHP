@@ -13,6 +13,7 @@ $shoes = $statement->fetchAll();
 
 // Check if the form has been submitted
 if (isset($_GET['order'])) {
+    require('authenticate.php');
     $order = $_GET['order'];
     $statement = $db->query("SELECT * FROM shoes ORDER BY $order DESC LIMIT 20");
 } else {
@@ -70,7 +71,7 @@ $shoes = $statement->fetchAll();
         </div>
     </header>
     <form method="get" class="search-container">
-        <label for="order">Sort by:</label>
+        <label for="order">Sort by</label>
         <select name="order" id="order">
             <option value="headline">ShoeName</option>
             <option value="date">Date</option>
