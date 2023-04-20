@@ -36,12 +36,12 @@ $statement->execute();
   <link href="css/stylesheet/style.css" rel="stylesheet">
   <link rel="icon" href="images/buzzicon.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-  <title>The ShoeBuzz Shop - Create Category</title>
+  <title>John's ShoeBuzz Shop - Create Category</title>
 </head>
 <body>
     <header id="header" class="fixed-top header-inner-pages">
         <div class="container d-flex align-items-center justify-content-between">
-            <h1 class="logo"><a href="index.php">The ShoeBuzz Shop</a></h1>
+            <h1 class="logo"><a href="index.php">John's ShoeBuzz Shop</a></h1>
             <nav id="navbar" class="navbar">
                 <ul class="nav-menu">
                 <li><a href="index.php">Main BuzzPage</a></li>
@@ -80,26 +80,26 @@ $statement->execute();
         </fieldset>
     </form>
     <footer id="footer">
-        <div class="footer-top">
-            <div class="container-fluid">
-                <div class="row justify-content-center">
-                    <div class="col-xl-10">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6 footer-contact">
-                                <h4>Contact BuzzStaff</h4>
-                                <p>
-                                123 Exchange Street <br>
-                                Winnipeg, M.B <br>
-                                Canada <br><br>
-                                <strong>Phone:</strong> +123 456 7891<br>
-                                <strong>Email:</strong> info@john.com<br>
-                                </p>
-                            </div>
+    <div class="footer-top">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-xl-10">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 footer-contact">
+                            <h4>Contact BuzzStaff</h4>
+                            <p>
+                            123 Exchange Street <br>
+                            Winnipeg, M.B <br>
+                            Canada <br><br>
+                            <strong>Phone:</strong> +123 456 7891<br>
+                            <strong>Email:</strong> info@john.com<br>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </footer>
 </body>
 </html>

@@ -16,7 +16,7 @@ $keyword  = filter_input(INPUT_POST, 'keyword', FILTER_SANITIZE_STRING);
 $shoecategory = filter_input(INPUT_POST, 'shoecategory', FILTER_VALIDATE_INT);
 
 if ($_POST['shoecategory'] !== '') {
-    $query     = "SELECT * FROM shoes WHERE category_id = '$shoecategory' AND headline LIKE '%{$keyword}%' ORDER BY price DESC";
+    $query     = "SELECT * FROM shoes WHERE category_id = '$shoecategory' AND headline LIKE '%{$keyword}%'";
     $statement = $db->prepare($query);
 } else {
     $query     = "SELECT * FROM shoes WHERE headline LIKE '%{$keyword}%'  ORDER BY price DESC";
@@ -70,7 +70,7 @@ if ($_POST['shoecategory'] !== '') {
     </header>
     <div class="section-title">
     <?php if ($statement->execute()): ?>
-        <h1>Search <?= $keyword ?> has <?= $statement->rowCount() ?> result(s).</h1>
+        <h1>'<?= $keyword ?>' has <?= $statement->rowCount() ?> result(s).</h1>
         <?php while($row = $statement->fetch()): ?>
             <br><h2><a href="edit.php?id=<?= $row['id'] ?>"><?= $row['headline'] ?></a></h2>
             <h3>$<?= $row['price'] ?></h3>

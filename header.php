@@ -19,14 +19,14 @@ $statement->execute();
     <nav>
         <div class="header-nav">
         <form action="search.php" method="post" class="search-container">
+            <input type="text" name="keyword" placeholder="Search for shoes...">
             <select name="shoecategory">
-                <option value="">All Categories</option>
+                <option value="">All categories</option>
                 <?php while($category = $statement->fetch()): ?>
-                    <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+                <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
                 <?php endwhile ?>
             </select>
-            <input type="text" name="keyword" placeholder="Search for shoes...">
-            <input type="submit" id="search-button" value="Search">
+            <button type="submit">Search</button>
         </form>
         </div>
     </nav>
