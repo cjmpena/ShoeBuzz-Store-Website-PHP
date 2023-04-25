@@ -19,13 +19,13 @@ $statement->execute();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize user input to escape HTML entities and filter out dangerous characters.
-    $headline = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $category = filter_input(INPUT_POST, 'shoecategory', FILTER_SANITIZE_NUMBER_INT);
-    $price    = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_INT);
-    $price    = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_INT);
-    $size     = filter_input(INPUT_POST, 'size', FILTER_SANITIZE_NUMBER_FLOAT);
-    $size     = filter_input(INPUT_POST, 'size', FILTER_VALIDATE_FLOAT);
-    $content  = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $headline        = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $category        = filter_input(INPUT_POST, 'shoecategory', FILTER_SANITIZE_NUMBER_INT);
+    $sanitized_price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_INT);
+    $validated_price = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_INT);
+    $sanitized_size  = filter_input(INPUT_POST, 'size', FILTER_SANITIZE_NUMBER_FLOAT);
+    $validated_size  = filter_input(INPUT_POST, 'size', FILTER_VALIDATE_FLOAT);
+    $content         = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     function file_upload_path($original_filename, $upload_subfolder_name = 'uploads') {
         $current_folder = dirname(__FILE__);
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Checks to see if the title and content have at least 1 character.
-    if (empty(trim($headline)) || empty(trim($content)) || empty(trim($price))) {
+    if (empty(trim($headline)) || empty(trim($content)) || empty(trim($sanitized_price)) || empty(trim($sanitized_size))) {
         // Directs user to error page.
         header("Location: error.php");
         exit;
@@ -69,9 +69,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $statement = $db->prepare("INSERT INTO shoes (headline, category_id, price, image, size, content, date) VALUES (:headline, :shoecategory, :price, :image, :size, :content, NOW())");
     $statement->bindParam(':headline', $headline);
     $statement->bindParam(':shoecategory', $category);
-    $statement->bindParam(':price', $price);
+    $statement->bindParam(':price', $validated_price);
     $statement->bindParam(':image', $image_filename);
-    $statement->bindParam(':size', $size);
+    $statement->bindParam(':size', $validated_size);
     $statement->bindParam(':content', $content);
     $statement->execute();
 
@@ -125,31 +125,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </header>
     <div>
-        <form action="post.php" method="post" enctype="multipart/form-data">
+        <form action="post.php" method="post" enctype="multipart/form-data" >
                 <fieldset>
                     <legend><h1>Post ShoeShop</h1></legend>
                     <p>
                         <label for="headline">Headline</label>
-                        <input type="text" id="headline" name="headline" required>
+                        <input type="text" id="headline" name="headline" >
                     </p>
                     <label for="categoryInput">Category</label>
                     <select class="u-full-width" name="shoecategory" id="category">
-                        <option value="">Categories</option>
                         <?php while($row = $statement->fetch()): ?>
                         <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                         <?php endwhile ?>
                     </select>
                     <p>
                         <label for="price">Price</label>
-                        <input type="number" id="price" name="price" required>
+                        <input type="number" id="price" name="price" >
                     </p>
                     <p>
                         <label for="size">Size</label>
-                        <input type="number" step="0.1" id="size" name="size" required>
+                        <input type="number" step="0.1" id="size" name="size" >
                     </p>
                     <p>
                         <label for="content">Description Content</label>
-                        <textarea name="content" id="content" required></textarea>
+                        <textarea name="content" id="content" ></textarea>
                     </p>
                     <p>
                         <div class="file-container">
