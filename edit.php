@@ -16,17 +16,18 @@ $statement->execute();
 
 if($_POST && isset($_POST['headline']) && isset($_POST['shoecategory']) && isset($_POST['price']) && isset($_POST['content']) && isset($_POST['id'])){
     // Sanitize user input to escape HTML entities and filter out dangerous characters.
-    $headline   = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $category   = filter_input(INPUT_POST, 'shoecategory', FILTER_SANITIZE_NUMBER_INT);
-    $price      = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_INT);
-    $price      = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_INT);
-    $size       = filter_input(INPUT_POST, 'size', FILTER_SANITIZE_NUMBER_FLOAT);
-    $size       = filter_input(INPUT_POST, 'size', FILTER_VALIDATE_FLOAT);
-    $content    = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $id         = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+    $headline                 = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $category_sanitize        = filter_input(INPUT_POST, 'shoecategory', FILTER_SANITIZE_NUMBER_INT);
+    $category_validate        = filter_input(INPUT_POST, 'shoecategory', FILTER_VALIDATE_INT);
+    $sanitized_price          = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_INT);
+    $validated_price          = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_INT);
+    $sanitized_size           = filter_input(INPUT_POST, 'size', FILTER_SANITIZE_NUMBER_FLOAT);
+    $validated_size           = filter_input(INPUT_POST, 'size', FILTER_VALIDATE_FLOAT);
+    $content                  = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $id                       = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
     
-    // Checks if length of headline and content is above 1 character if not form exits.
-    if (empty(trim($headline)) || empty(trim($content)) || empty(trim($price))) {
+    // Checks to see if the title and contenthave at least 1 character, if category is chosen, if price and size are empty or have different character.
+    if (empty(trim($headline)) || empty(trim($content)) || $category_sanitize === '' || empty(trim($sanitized_price)) || empty(trim($sanitized_size))) {
         // Directs user to error page.
         header("Location: error.php");
         exit;
@@ -37,9 +38,9 @@ if($_POST && isset($_POST['headline']) && isset($_POST['shoecategory']) && isset
         $query    = "UPDATE shoes SET headline = :headline, category_id = :shoecategory, price = :price, size = :size, content = :content WHERE id = :id";
         $statment = $db->prepare($query);
         $statment->bindValue(':headline', $headline);
-        $statment->bindParam(':shoecategory', $category); 
-        $statment->bindValue(':price', $price);
-        $statment->bindValue(':size', $size); 
+        $statment->bindParam(':shoecategory', $category_validate); 
+        $statment->bindValue(':price', $validated_price);
+        $statment->bindValue(':size', $validated_size); 
         $statment->bindValue(':content', $content);
         $statment->bindValue(':id', $id, PDO::PARAM_INT);
         $statment->execute();

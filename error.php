@@ -55,9 +55,12 @@ require('connect.php');
         </div>
     </header>
     <div>
-        <h1>An error occured while processing your post.</h1>
-        <p>Everything needs to be at least 1 character.</p>
+        <h2>An error occured while processing your post.</h2>
+        <h4>Everything needs to be at least 1 character.</h4>
+        <h4>Price and Size must have a value</h4>
+        <h4>A Category needs to be chosen.</h4>
         <a href="index.php">Return Home</a>
+        <br><a href="shoeshop.php">Return ShoeBuzz Shop</a>
     </div> 
     <footer id="footer">
         <div class="footer-top">

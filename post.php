@@ -19,13 +19,14 @@ $statement->execute();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize user input to escape HTML entities and filter out dangerous characters.
-    $headline        = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $category        = filter_input(INPUT_POST, 'shoecategory', FILTER_SANITIZE_NUMBER_INT);
-    $sanitized_price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_INT);
-    $validated_price = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_INT);
-    $sanitized_size  = filter_input(INPUT_POST, 'size', FILTER_SANITIZE_NUMBER_FLOAT);
-    $validated_size  = filter_input(INPUT_POST, 'size', FILTER_VALIDATE_FLOAT);
-    $content         = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $headline                 = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $category_sanitize        = filter_input(INPUT_POST, 'shoecategory', FILTER_SANITIZE_NUMBER_INT);
+    $category_validate        = filter_input(INPUT_POST, 'shoecategory', FILTER_VALIDATE_INT);
+    $sanitized_price          = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_INT);
+    $validated_price          = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_INT);
+    $sanitized_size           = filter_input(INPUT_POST, 'size', FILTER_SANITIZE_NUMBER_FLOAT);
+    $validated_size           = filter_input(INPUT_POST, 'size', FILTER_VALIDATE_FLOAT);
+    $content                  = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     function file_upload_path($original_filename, $upload_subfolder_name = 'uploads') {
         $current_folder = dirname(__FILE__);
@@ -58,17 +59,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Checks to see if the title and content have at least 1 character.
-    if (empty(trim($headline)) || empty(trim($content)) || empty(trim($sanitized_price)) || empty(trim($sanitized_size))) {
+    // Checks to see if the title and contenthave at least 1 character, if category is chosen, if price and size are empty or have different character.
+    if (empty(trim($headline)) || empty(trim($content)) || $category_sanitize === '' || empty(trim($sanitized_price)) || empty(trim($sanitized_size))) {
         // Directs user to error page.
         header("Location: error.php");
         exit;
     }
     
-    //  Build the parameterized SQL query and bind to the above sanitized values.
+    // Build the parameterized SQL query and bind to the above sanitized values.
     $statement = $db->prepare("INSERT INTO shoes (headline, category_id, price, image, size, content, date) VALUES (:headline, :shoecategory, :price, :image, :size, :content, NOW())");
     $statement->bindParam(':headline', $headline);
-    $statement->bindParam(':shoecategory', $category);
+    $statement->bindParam(':shoecategory', $category_validate);
     $statement->bindParam(':price', $validated_price);
     $statement->bindParam(':image', $image_filename);
     $statement->bindParam(':size', $validated_size);
@@ -134,6 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </p>
                     <label for="categoryInput">Category</label>
                     <select class="u-full-width" name="shoecategory" id="category">
+                        <option value="">Categories</option>
                         <?php while($row = $statement->fetch()): ?>
                         <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                         <?php endwhile ?>
