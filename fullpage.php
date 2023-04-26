@@ -11,7 +11,7 @@ $query = "SELECT * FROM shoes ORDER BY headline LIMIT 5";
 $statement = $db->prepare($query);
 $statement->execute();
 
-if(isset($_GET['shoecategory'])) {
+if (isset($_GET['shoecategory'])) {
   $category_id = $_GET['shoecategory'];
   $query = "SELECT * FROM shoes WHERE category_id = :category_id";
   $statement = $db->prepare($query);
@@ -46,33 +46,33 @@ if(isset($_GET['shoecategory'])) {
 <body>
     <header id="header" class="fixed-top header-inner-pages">
         <div class="container d-flex align-items-center justify-content-between">
-        <h1 class="logo"><a href="index.php">The ShoeBuzz Shop</a></h1>
-        <nav id="navbar" class="navbar">
-            <ul class="nav-menu">
-            <li><a href="index.php">Main BuzzPage</a></li>
-            <li class="dropdown"><a href="#"><span>ShoeShop</span> <i class="bi bi-chevron-right"></i></a>
-                <ul>
-                <li><a href="shoeshop.php">ShoeShop Page</a></li>
-                <li><a href="shoecategories.php">Categories</a></li>
-                <li><a href="sizing.php">Sizing Comparison</a></li>
+            <h1 class="logo"><a href="index.php">The ShoeBuzz Shop</a></h1>
+            <nav id="navbar" class="navbar">
+                <ul class="nav-menu">
+                <li><a href="index.php">Main BuzzPage</a></li>
+                <li class="dropdown"><a href="#"><span>ShoeShop</span> <i class="bi bi-chevron-right"></i></a>
+                    <ul>
+                    <li><a href="shoeshop.php">ShoeShop Page</a></li>
+                    <li><a href="shoecategories.php">Categories</a></li>
+                    <li><a href="sizing.php">Sizing Comparison</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="#"><span>BuzzFeedback</span> <i class="bi bi-chevron-right"></i></a>
+                    <ul>
+                    <li><a href="index.php#reviews">Reviews and Comments</a></li>
+                    <li><a href="review.php">Leave a Review or Comment!</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.php#contact">Questions? Send us A Message!</a></li>
+                <li><a href="#footer">BuzzStaff Contact Information</a></li>
+                <li class="dropdown"><a href="#"><span>Admin</span> <i class="bi bi-chevron-right"></i></a>
+                    <ul>
+                    <li><a href="post.php">Post For ShoeShop</a></li>
+                    <li><a href="categories.php">Add ShoeCategories</a></li>
+                    </ul>
+                </li>
                 </ul>
-            </li>
-            <li class="dropdown"><a href="#"><span>BuzzFeedback</span> <i class="bi bi-chevron-right"></i></a>
-                <ul>
-                <li><a href="index.php#reviews">Reviews and Comments</a></li>
-                <li><a href="review.php">Leave a Review or Comment!</a></li>
-                </ul>
-            </li>
-            <li><a href="index.php#contact">Questions? Send us A Message!</a></li>
-            <li><a href="#footer">BuzzStaff Contact Information</a></li>
-            <li class="dropdown"><a href="#"><span>Admin</span> <i class="bi bi-chevron-right"></i></a>
-                <ul>
-                <li><a href="post.php">Post For ShoeShop</a></li>
-                <li><a href="categories.php">Add ShoeCategories</a></li>
-                </ul>
-            </li>
-            </ul>
-        </nav>
+            </nav>
         </div>
     </header>
     <div class="section-title">
@@ -100,26 +100,26 @@ if(isset($_GET['shoecategory'])) {
         <?php endwhile ?>
     </div>
     <footer id="footer">
-    <div class="footer-top">
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-xl-10">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 footer-contact">
-                            <h4>Contact BuzzStaff</h4>
-                            <p>
-                            123 Exchange Street <br>
-                            Winnipeg, M.B <br>
-                            Canada <br><br>
-                            <strong>Phone:</strong> +123 456 7891<br>
-                            <strong>Email:</strong> info@john.com<br>
-                            </p>
+        <div class="footer-top">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-xl-10">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 footer-contact">
+                                <h4>Contact BuzzStaff</h4>
+                                <p>
+                                123 Exchange Street <br>
+                                Winnipeg, M.B <br>
+                                Canada <br><br>
+                                <strong>Phone:</strong> +123 456 7891<br>
+                                <strong>Email:</strong> info@john.com<br>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </footer>
 </body>
 </html>

@@ -8,7 +8,7 @@
 require('connect.php');
 require('authenticate.php');
 
-if(isset($_GET['id'])){
+if (isset($_GET['id'])) {
     // Sanitize the id. Like above but this time from INPUT_GET.
     $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
@@ -21,11 +21,11 @@ if(isset($_GET['id'])){
     $statement->execute();
     $shoecategory = $statement->fetch();
 }
-else{
+else {
     $id = false; // False if we are not UPDATING
 }
         
-if($_POST && isset($_POST['name']) && isset($_POST['shoecategory'])) {
+if ($_POST && isset($_POST['name']) && isset($_POST['shoecategory'])) {
     $name_sanitize = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
     $shoecategory_sanitize = filter_input(INPUT_POST, 'shoecategory', FILTER_SANITIZE_NUMBER_INT);
 
@@ -42,7 +42,7 @@ if($_POST && isset($_POST['name']) && isset($_POST['shoecategory'])) {
     }
 
      // Delete
-     if($_POST['command'] == "Delete Category") {
+     if ($_POST['command'] == "Delete Category") {
         $query = "DELETE FROM shoecategory WHERE id = :id";
         $statement = $db->prepare($query);
         $statement->bindParam(':id', $shoecategory_sanitize, PDO::PARAM_INT);
@@ -59,13 +59,13 @@ if($_POST && isset($_POST['name']) && isset($_POST['shoecategory'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="css/stylesheet/style.css" rel="stylesheet">
-  <link rel="icon" href="images/buzzicon.png" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-  <title>The ShoeBuzz Shop - Edit Category</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/stylesheet/style.css" rel="stylesheet">
+    <link rel="icon" href="images/buzzicon.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <title>The ShoeBuzz Shop - Edit Category</title>
 </head>
 <body>
     <header id="header" class="fixed-top header-inner-pages">
@@ -136,3 +136,4 @@ if($_POST && isset($_POST['name']) && isset($_POST['shoecategory'])) {
     </div>
     </footer>
 </body>
+</html>

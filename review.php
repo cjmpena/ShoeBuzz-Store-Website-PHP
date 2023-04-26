@@ -9,8 +9,7 @@
 
 require('connect.php');
 
-
-if($_POST && isset($_POST['name']) && isset($_POST['comment'])){
+if ($_POST && isset($_POST['name']) && isset($_POST['comment'])) {
     //  Sanitize user input to escape HTML entities and filter out dangerous characters.
     $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -29,7 +28,7 @@ if($_POST && isset($_POST['name']) && isset($_POST['comment'])){
   }
 
   // If submit is executed the content will be put into the database and posted on the index page.
-  if($_POST['command'] == "Submit Post"){
+  if ($_POST['command'] == "Submit Post") {
     //  Build the parameterized SQL query and bind to the above sanitized values.
     $statement = $db->prepare("INSERT INTO review (name, comment, date) VALUES (:name, :comment, NOW())");
     $statement->bindParam(':name', $name);
@@ -58,9 +57,9 @@ if($_POST && isset($_POST['name']) && isset($_POST['comment'])){
 </head>
 <body>
   <header id="header" class="fixed-top header-inner-pages">
-        <div class="container d-flex align-items-center justify-content-between">
-        <h1 class="logo"><a href="index.php">The ShoeBuzz Shop</a></h1>
-        <nav id="navbar" class="navbar">
+    <div class="container d-flex align-items-center justify-content-between">
+      <h1 class="logo"><a href="index.php">The ShoeBuzz Shop</a></h1>
+      <nav id="navbar" class="navbar">
             <ul class="nav-menu">
             <li><a href="index.php">Main BuzzPage</a></li>
             <li class="dropdown"><a href="#"><span>ShoeShop</span> <i class="bi bi-chevron-right"></i></a>
@@ -87,48 +86,48 @@ if($_POST && isset($_POST['name']) && isset($_POST['comment'])){
             <li><a href="#"></li>
             <li><div class="header-nav"><?php require('header.php') ?></div></li>
             </ul>
-        </nav>
-        </div>
-    </header>
+      </nav>
+    </div>
+  </header>
     <div id="content">
         <form action="review.php" method="post">
-                    <fieldset>
-                        <legend><h1>Leave a Review!</h1></legend>
-                        <p>
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" required>
-                        </p>
-                        <p>
-                            <label for="comment">Comment</label>
-                            <textarea name="comment" id="comment" required></textarea>
-                        </p>
-                        <p>
-                            <button type="submit" name="command" value="Submit Post">Submit</button>
-                        </p>
-                    </fieldset>
-            </form>
-        
-            <footer id="footer">
-            <div class="footer-top">
-            <div class="container-fluid">
-            <div class="row justify-content-center">
-          <div class="col-xl-10">
-            <div class="row">
-              <div class="col-lg-3 col-md-6 footer-contact">
-                <h4>Contact BuzzStaff</h4>
-                <p>
-                  123 Exchange Street <br>
-                  Winnipeg, M.B <br>
-                  Canada <br><br>
-                  <strong>Phone:</strong> +123 456 7891<br>
-                  <strong>Email:</strong> info@john.com<br>
-                </p>
+          <fieldset>
+            <legend><h1>Leave a Review!</h1></legend>
+            <p>
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required>
+            </p>
+            <p>
+              <label for="comment">Comment</label>
+              <textarea name="comment" id="comment" required></textarea>
+            </p>
+            <p>
+              <button type="submit" name="command" value="Submit Post">Submit</button>
+            </p>
+          </fieldset>
+        </form>
+    </div> 
+    <footer id="footer">
+      <div class="footer-top">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-xl-10">
+              <div class="row">
+                <div class="col-lg-3 col-md-6 footer-contact">
+                  <h4>Contact BuzzStaff</h4>
+                  <p>
+                    123 Exchange Street <br>
+                    Winnipeg, M.B <br>
+                    Canada <br><br>
+                    <strong>Phone:</strong> +123 456 7891<br>
+                    <strong>Email:</strong> info@john.com<br>
+                    </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </footer>
 </body>
 </html>

@@ -21,11 +21,11 @@ $shoes = $statement->fetch();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<link rel="icon" href="images/buzzicon.png" type="image/x-icon">
-<link href="css/stylesheet/style.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-<title>The ShoeBuzz Shop</title>
+    <meta charset="utf-8">
+    <link rel="icon" href="images/buzzicon.png" type="image/x-icon">
+    <link href="css/stylesheet/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <title>The ShoeBuzz Shop</title>
 </head>
 <body>
     <header id="header" class="fixed-top header-inner-pages">

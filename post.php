@@ -2,8 +2,8 @@
 /*******w******** 
     
     Name: Carla Manansala
-    Date: March 23 2023
-    Description: This file creates the post to the John's Shoe Store content.
+    Date: April 25 2023
+    Description: This file creates the post to the Shoe Store content.
 
 ****************/
 
@@ -127,43 +127,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </header>
     <div>
         <form action="post.php" method="post" enctype="multipart/form-data" >
-                <fieldset>
-                    <legend><h1>Post ShoeShop</h1></legend>
-                    <p>
-                        <label for="headline">Headline</label>
-                        <input type="text" id="headline" name="headline" >
-                    </p>
-                    <label for="categoryInput">Category</label>
-                    <select class="u-full-width" name="shoecategory" id="category">
-                        <option value="">Categories</option>
-                        <?php while($row = $statement->fetch()): ?>
-                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
-                        <?php endwhile ?>
-                    </select>
-                    <p>
-                        <label for="price">Price</label>
-                        <input type="number" id="price" name="price" >
-                    </p>
-                    <p>
-                        <label for="size">Size</label>
-                        <input type="number" step="0.1" id="size" name="size" >
-                    </p>
-                    <p>
-                        <label for="content">Description Content</label>
-                        <textarea name="content" id="content" ></textarea>
-                    </p>
-                    <p>
-                        <div class="file-container">
-                            <div class="file-input">
-                                <label for="inputImage">Upload Image</label>
-                                <input class="file" id="inputImage" type="file" name="image">
-                            </div>
-                            <button type="submit" name="command" value="Submit Post">Submit</button>
+            <fieldset>
+                <legend><h1>Post ShoeShop</h1></legend>
+                <p>
+                    <label for="headline">Headline</label>
+                    <input type="text" id="headline" name="headline" >
+                </p>
+                <label for="categoryInput">Category</label>
+                <select class="u-full-width" name="shoecategory" id="category">
+                    <option value="">Categories</option>
+                    <?php while($row = $statement->fetch()): ?>
+                    <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                    <?php endwhile ?>
+                </select>
+                <p>
+                    <label for="price">Price</label>
+                    <input type="number" id="price" name="price" >
+                </p>
+                <p>
+                    <label for="size">Size</label>
+                    <input type="number" step="0.1" id="size" name="size" >
+                </p>
+                <p>
+                    <label for="content">Description Content</label>
+                    <textarea name="content" id="content" ></textarea>
+                </p>
+                <p>
+                    <div class="file-container">
+                        <div class="file-input">
+                            <label for="inputImage">Upload Image</label>
+                            <input class="file" id="inputImage" type="file" name="image">
                         </div>
-                    </p>
-                </fieldset>
+                        <button type="submit" name="command" value="Submit Post">Submit</button>
+                    </div>
+                </p>
+            </fieldset>
         </form>
-            <!-- ======= Footer ======= -->
+    </div>
+    <!-- ======= Footer ======= -->
     <footer id="footer">
         <div class="footer-top">
             <div class="container-fluid">

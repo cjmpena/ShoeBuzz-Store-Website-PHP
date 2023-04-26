@@ -2,7 +2,7 @@
 /*******w******** 
     
     Name: Carla Manansala
-    Date: April 12 2023
+    Date: April 25 2023
     Description: The shoeshop file for my final Project.
 ****************/
 
@@ -109,26 +109,26 @@ $shoes = $statement->fetchAll();
     <?php endif ?>
     <!-- ======= Footer ======= -->
     <footer id="footer">
-    <div class="footer-top">
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-xl-10">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 footer-contact">
-                            <h4>Contact BuzzStaff</h4>
-                            <p>
-                            123 Exchange Street <br>
-                            Winnipeg, M.B <br>
-                            Canada <br><br>
-                            <strong>Phone:</strong> +123 456 7891<br>
-                            <strong>Email:</strong> info@john.com<br>
-                            </p>
+        <div class="footer-top">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-xl-10">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 footer-contact">
+                                <h4>Contact BuzzStaff</h4>
+                                <p>
+                                123 Exchange Street <br>
+                                Winnipeg, M.B <br>
+                                Canada <br><br>
+                                <strong>Phone:</strong> +123 456 7891<br>
+                                <strong>Email:</strong> info@john.com<br>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </footer>
 </body>
 </html>

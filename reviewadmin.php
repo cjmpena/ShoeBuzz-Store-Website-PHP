@@ -9,14 +9,14 @@
 require('connect.php');
 require('authenticate.php');
 
-if($_POST && isset($_POST['name']) && isset($_POST['comment']) && isset($_POST['id'])){
+if ($_POST && isset($_POST['name']) && isset($_POST['comment']) && isset($_POST['id'])) {
     // Sanitize user input to escape HTML entities and filter out dangerous characters.
     $name       = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $comment    = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $id         = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
 
     // Delete
-    if($_POST['command'] == "Delete"){
+    if ($_POST['command'] == "Delete") {
         $query    = "DELETE FROM review WHERE id = :id";
         $statment = $db->prepare($query);
         $statment->bindValue(':id', $id, PDO::PARAM_INT);
@@ -28,7 +28,7 @@ if($_POST && isset($_POST['name']) && isset($_POST['comment']) && isset($_POST['
     }
 }
  
-if(isset($_GET['id'])){
+if (isset($_GET['id'])) {
     // Sanitize the id. Like above but this time from INPUT_GET.
     $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
     
@@ -41,7 +41,7 @@ if(isset($_GET['id'])){
     $statment->execute();
     $reviews = $statment->fetch();
 }
-else{
+else {
     $id = false; // False if we are not UPDATING
 }
 

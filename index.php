@@ -30,7 +30,6 @@ $review = $statement->fetchAll();
 </head>
 
 <body>
-  <!-- ======= Header ======= -->
   <header id="header" class="fixed-top header-inner-pages">
     <div class="container d-flex align-items-center justify-content-between">
       <h1 class="logo"><a href="index.php">The ShoeBuzz Shop</a></h1>
@@ -64,7 +63,6 @@ $review = $statement->fetchAll();
       </nav>
     </div>
   </header>
-  <!-- ======= Hero Section ======= -->
   <section id="hero">
     <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
       <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
@@ -82,7 +80,6 @@ $review = $statement->fetchAll();
       </div>
     </div>
   </section>
-
   <section id="reviews">
       <div class="section-title">
       <h3>Reviews and Comments from the <span>Buzz</span>Customers</h3>
@@ -99,24 +96,19 @@ $review = $statement->fetchAll();
       </div>
   </section>
 
-    <!-- ======= Contact Section ======= -->
-    <section id="contact" class="contact section-bg">
-      <div class="container-fluid">
+  <section id="contact" class="contact section-bg">
+    <div class="container-fluid">
+      <div class="section-title">
+        <h2>Contact</h2>
+        <h3>Get In Touch With The <span>Buzz</span></h3>
+        <p>For in-person purchases and questions about any shoes, please fill out form a form or call the store.</p>
+      </div>
 
-        <div class="section-title">
-          <h2>Contact</h2>
-          <h3>Get In Touch With The <span>Buzz</span></h3>
-          <p>For in-person purchases and questions about any shoes, please fill out form a form or call the store.</p>
-        </div>
-
-        <div class="row justify-content-center">
-          <div class="col-xl-10">
-            <div class="row">
-
-              <div class="col-lg-6">
-
-                <div class="row justify-content-center">
-
+      <div class="row justify-content-center">
+        <div class="col-xl-10">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="row justify-content-center">
                   <div class="col-md-6 info d-flex flex-column align-items-stretch">
                     <i class="bx bx-map"></i>
                     <h4>Address</h4>
@@ -168,9 +160,6 @@ $review = $statement->fetchAll();
         </div>
       </div>
     </section>
-
-  </main>
-
   <!-- ======= Footer ======= -->
   <footer id="footer">
     <div class="footer-top">
