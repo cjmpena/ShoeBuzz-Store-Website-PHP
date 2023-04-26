@@ -18,7 +18,7 @@ $statement->execute();
 <body>
     <nav>
         <div class="header-nav">
-        <form action="search.php" method="post" class="search-container">
+        <form action="search.php" method="get" class="search-container">
             <select name="shoecategory">
                 <option value="">All Categories</option>
                 <?php while($category = $statement->fetch()): ?>

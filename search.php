@@ -5,23 +5,66 @@
     Date: April 14 2023
     Description: The search file for my final Project.
 ****************/
-
 require('connect.php');
 
-$query = "SELECT * FROM shoecategory";
-$statement = $db->prepare($query);
+// Start the session
+session_start();
+
+// Set the maximum number of search results per page
+$results_per_page = 5;
+
+// Determine the current page number
+if (isset($_GET['page'])) {
+    $current_page = $_GET['page'];
+} else {
+    $current_page = 1;
+}
+
+$keyword  = filter_input(INPUT_GET, 'keyword', FILTER_SANITIZE_STRING);
+$shoecategory = filter_input(INPUT_GET, 'shoecategory', FILTER_VALIDATE_INT);
+
+$query = "SELECT COUNT(*) FROM shoe WHERE name LIKE :keyword";
+$params = array(':keyword' => "%$keyword%");
+
+// Store the search parameters in session variables
+if (!empty($keyword)) {
+    $_SESSION['keyword'] = $keyword;
+} else {
+    $_SESSION['keyword'] = '';
+}
+
+if (!empty($shoecategory)) {
+    $_SESSION['shoecategory'] = $shoecategory;
+} else {
+    $_SESSION['shoecategory'] = '';
+}
+
+// Retrieve the search parameters from the session
+$keyword_session = $_SESSION['keyword'];
+$shoecategory_session = $_SESSION['shoecategory'];
+
+// Calculate the limit clause for the SQL query
+$offset = ($current_page - 1) * $results_per_page;
+$limit_clause = "LIMIT $offset, $results_per_page";
+
+if (!empty($shoecategory_session)) {
+    $query = "SELECT * FROM shoes WHERE category_id = '$shoecategory_session' AND headline LIKE '%{$keyword_session}%' ORDER BY price DESC";
+} else {
+    $query = "SELECT * FROM shoes WHERE headline LIKE '%{$keyword_session}%'  ORDER BY price DESC";
+}
+
+$statement = $db->prepare($query . " $limit_clause");
 $statement->execute();
 
-$keyword  = filter_input(INPUT_POST, 'keyword', FILTER_SANITIZE_STRING);
-$shoecategory = filter_input(INPUT_POST, 'shoecategory', FILTER_VALIDATE_INT);
+// Get the total number of search results
+$total_results = $db->query($query)->rowCount();
+// Calculate the total number of pages
+$total_pages = ceil($total_results / $results_per_page);
 
-if ($_POST['shoecategory'] !== '') {
-    $query     = "SELECT * FROM shoes WHERE category_id = '$shoecategory' AND headline LIKE '%{$keyword}%' ORDER BY price DESC";
-    $statement = $db->prepare($query);
-} else {
-    $query     = "SELECT * FROM shoes WHERE headline LIKE '%{$keyword}%'  ORDER BY price DESC";
-    $statement = $db->prepare($query);
-}
+/*
+echo "Current page: " . $current_page . "<br>";
+echo "Shoe category: " . $shoecategory_session . "<br>";
+echo "Keyword: " . $keyword_session . "<br>";*/
 
 ?>
 
@@ -69,31 +112,53 @@ if ($_POST['shoecategory'] !== '') {
         </div>
     </header>
     <div class="section-title">
-    <?php if ($statement->execute()): ?>
-        <h1>Search <?= $keyword ?> has <?= $statement->rowCount() ?> result(s).</h1>
-        <?php while($row = $statement->fetch()): ?>
-            <br><h2><a href="edit.php?id=<?= $row['id'] ?>"><?= $row['headline'] ?></a></h2>
-            <h3>$<?= $row['price'] ?></h3>
-            <h4>Size <?= $row['size'] ?></h4>
-            <div>
-                <?php if(!empty($row['image'])): ?>
-                    <div class="thumbnail-container">
-                        <img class="shoe-thumbnail" src="uploads/<?= $row['image'] ?>" alt="<?= $row['headline'] ?>">
-                    </div>
-                <?php endif ?>
-                <?php $truncated_content = substr($row['content'], 0, 200) . '...'; ?>
-                <?php if(strlen($row['content']) > 200 ): ?>
-                    <p><?= $truncated_content ?></p><h2><a href= "fullpost.php?id=<?= $row['id'] ?>">Full Post</a></h2>
-                <?php else: ?>
-                    <p><?= $row['content'] ?></p>
-                    <small>
-                        Posted at: <?= date("F d, Y, g:i a", strtotime($row['date'])) ?>
-                    </small><br>
-                <?php endif ?>
-            </div>
-        <?php endwhile ?>
-    <?php endif ?>
-
+        <?php if ($statement->rowCount() > 0): ?>
+            <?php if ($keyword !== ""): ?>
+                <h1>Search "<?= $keyword ?>" has <?= $total_results ?> result(s).</h1>
+            <?php else: ?>
+                <h1>Search has <?= $total_results ?> result(s).</h1>
+            <?php endif ?>
+            <?php while($row = $statement->fetch()): ?>
+                <br><h2><a href="edit.php?id=<?= $row['id'] ?>"><?= $row['headline'] ?></a></h2>
+                <h3>$<?= $row['price'] ?></h3>
+                <h4>Size <?= $row['size'] ?></h4>
+                <div>
+                    <?php if(!empty($row['image'])): ?>
+                        <div class="thumbnail-container">
+                            <img class="shoe-thumbnail" src="uploads/<?= $row['image'] ?>" alt="<?= $row['headline'] ?>">
+                        </div>
+                    <?php endif ?>
+                    <?php $truncated_content = substr($row['content'], 0, 200) . '...'; ?>
+                    <?php if(strlen($row['content']) > 200 ): ?>
+                        <p><?= $truncated_content ?></p><h2><a href= "fullpost.php?id=<?= $row['id'] ?>">Full Post</a></h2>
+                    <?php else: ?>
+                        <p><?= $row['content'] ?></p>
+                        <small>
+                            Posted at: <?= date("F d, Y, g:i a", strtotime($row['date'])) ?>
+                        </small><br>
+                    <?php endif ?>
+                </div>
+            <?php endwhile ?>
+            <?php if ($total_pages > 1): ?>
+                <div class="pagination">
+                    <?php if ($current_page > 1): ?>
+                        <br><h2><a href="?page=<?= $current_page - 1 ?>&shoecategory=<?= $shoecategory_session ?>&keyword=<?= $keyword_session ?>">Prev</a></h2>
+                    <?php endif ?>
+                    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                        <?php if ($i == $current_page): ?>
+                            <h3><span class="current-page"><?= $i ?></span></h3>
+                        <?php else: ?>
+                            <h2><a href="?page=<?= $i ?>&shoecategory=<?= $shoecategory_session ?>&keyword=<?= $keyword_session ?>"><?= $i ?></a></h2>
+                        <?php endif ?>
+                    <?php endfor ?>
+                    <?php if ($current_page < $total_pages): ?>
+                        <h2><a href="?page=<?= $current_page + 1 ?>&shoecategory=<?= $shoecategory_session ?>&keyword=<?= $keyword_session ?>">Next</a></h2>
+                    <?php endif ?>
+                </div>
+            <?php endif ?>
+            <?php else: ?>
+                <p>No results found.</p>
+            <?php endif ?>
     </div>
     <footer id="footer">
     <div class="footer-top">
