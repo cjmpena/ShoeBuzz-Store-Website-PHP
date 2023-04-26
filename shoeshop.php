@@ -17,6 +17,13 @@ if (isset($_GET['page'])) {
     $current_page = 1;
 }
 
+// Determine the current order
+if (isset($_GET['order'])) {
+    $current_order = $_GET['order'];
+} else {
+    $current_order = 'id';
+}
+
 // Calculate the limit clause for the SQL query
 $offset = ($current_page - 1) * $results_per_page;
 $limit_clause = "LIMIT $offset, $results_per_page";
@@ -28,9 +35,7 @@ if (isset($_GET['order'])) {
     $limit_clause = "LIMIT " . (($current_page - 1) * $results_per_page) . ", $results_per_page";
     $statement = $db->query("SELECT * FROM shoes ORDER BY $order DESC $limit_clause");
 } else {
-    $offset = ($current_page - 1) * $results_per_page;
-    $limit_clause = "LIMIT $offset, $results_per_page";
-    $statement = $db->query("SELECT * FROM shoes ORDER BY id DESC $limit_clause");
+    $statement = $db->query("SELECT * FROM shoes ORDER BY $current_order DESC $limit_clause");
 }
 $shoes = $statement->fetchAll();
 
@@ -40,7 +45,6 @@ $total_results = $db->query("SELECT COUNT(*) FROM shoes")->fetchColumn();
 // Calculate the total number of pages
 $total_pages = ceil($total_results / $results_per_page);
 
-// Displaying the current selected order of shoes for the user.
 $last_selected = isset($_GET['order']) ? $_GET['order'] : 'headline';
 
 ?>
@@ -134,17 +138,19 @@ $last_selected = isset($_GET['order']) ? $_GET['order'] : 'headline';
             <?php if ($total_pages > 1): ?>
                 <br><div>
                     <?php if ($current_page > 1): ?>
-                        <h2><a href="?page=<?= $current_page - 1 ?>&order=<?= $_GET['order'] ?>">Prev</a></h2>
+                        <h2><a href="?page=<?= $current_page - 1 ?>&order=<?= $current_order ?>">Prev</a></h2>
                     <?php endif ?>
+
                     <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                         <?php if ($i == $current_page): ?>
-                            <h3><?= $i ?></h3>
+                            <h3><span><?= $i ?></span></h3>
                         <?php else: ?>
-                            <h2><a href="?page=<?= $i ?>&order=<?= $_GET['order'] ?>"><?= $i ?></a></h2>
+                            <h2><a href="?page=<?= $i ?>&order=<?= $current_order ?>"><?= $i ?></a></h2>
                         <?php endif ?>
                     <?php endfor; ?>
+                    
                     <?php if ($current_page < $total_pages): ?>
-                        <h2><a href="?page=<?= $current_page + 1 ?>&order=<?= $_GET['order'] ?>">Next</a></h2>
+                        <h2><a href="?page=<?= $current_page + 1 ?>&order=<?= $current_order ?>">Next</a></h2>
                     <?php endif ?>
                 </div>
             <?php endif ?>
