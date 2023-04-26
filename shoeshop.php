@@ -40,6 +40,9 @@ $total_results = $db->query("SELECT COUNT(*) FROM shoes")->fetchColumn();
 // Calculate the total number of pages
 $total_pages = ceil($total_results / $results_per_page);
 
+// Displaying the current selected order of shoes for the user.
+$last_selected = isset($_GET['order']) ? $_GET['order'] : 'headline';
+
 ?>
 
 <!DOCTYPE html>
@@ -93,10 +96,10 @@ $total_pages = ceil($total_results / $results_per_page);
     <form method="get" class="search-container">
         <label for="order">Sort by</label>
         <select name="order" id="order">
-            <option value="headline">ShoeName</option>
-            <option value="date">Date</option>
-            <option value="price">Price</option>
-            <option value="size">ShoeSize</option>
+            <option value="headline" <?php if ($last_selected == 'headline') echo 'selected'; ?>>ShoeName</option>
+            <option value="date" <?php if ($last_selected == 'date') echo 'selected'; ?>>Date</option>
+            <option value="price" <?php if ($last_selected == 'price') echo 'selected'; ?>>Price</option>
+            <option value="size" <?php if ($last_selected == 'size') echo 'selected'; ?>>ShoeSize</option>
         </select>
         <input type="hidden" name="page" value="<?= $current_page ?>">
         <input type="submit">
@@ -131,19 +134,17 @@ $total_pages = ceil($total_results / $results_per_page);
             <?php if ($total_pages > 1): ?>
                 <br><div>
                     <?php if ($current_page > 1): ?>
-                        <h2><a href="?page=<?= $current_page - 1 ?>">Prev</a></h2>
+                        <h2><a href="?page=<?= $current_page - 1 ?>&order=<?= $_GET['order'] ?>">Prev</a></h2>
                     <?php endif ?>
-
                     <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                         <?php if ($i == $current_page): ?>
-                            <h3><span><?= $i ?></span></h3>
+                            <h3><?= $i ?></h3>
                         <?php else: ?>
-                            <h2><a href="?page=<?= $i ?>"><?= $i ?></a></h2>
+                            <h2><a href="?page=<?= $i ?>&order=<?= $_GET['order'] ?>"><?= $i ?></a></h2>
                         <?php endif ?>
                     <?php endfor; ?>
-                    
                     <?php if ($current_page < $total_pages): ?>
-                        <h2><a href="?page=<?= $current_page + 1 ?>">Next</a></h2>
+                        <h2><a href="?page=<?= $current_page + 1 ?>&order=<?= $_GET['order'] ?>">Next</a></h2>
                     <?php endif ?>
                 </div>
             <?php endif ?>
