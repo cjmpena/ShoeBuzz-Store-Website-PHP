@@ -3,7 +3,7 @@
 /*******w******** 
     
     Name: Carla Manansala
-    Date: April 13 2023
+    Date: April 25 2023
     Description: The edit page for the user to make changes within the ShoeShop page.
 
 ****************/
@@ -14,7 +14,7 @@ $query = "SELECT * FROM shoecategory";
 $statement = $db->prepare($query);
 $statement->execute();
 
-if($_POST && isset($_POST['headline']) && isset($_POST['shoecategory']) && isset($_POST['price']) && isset($_POST['content']) && isset($_POST['id'])){
+if ($_POST && isset($_POST['headline']) && isset($_POST['shoecategory']) && isset($_POST['price']) && isset($_POST['content']) && isset($_POST['id'])) {
     // Sanitize user input to escape HTML entities and filter out dangerous characters.
     $headline                 = filter_input(INPUT_POST, 'headline', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $category_sanitize        = filter_input(INPUT_POST, 'shoecategory', FILTER_SANITIZE_NUMBER_INT);
@@ -26,6 +26,45 @@ if($_POST && isset($_POST['headline']) && isset($_POST['shoecategory']) && isset
     $content                  = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $id                       = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
     
+    function file_upload_path($original_filename, $upload_subfolder_name = 'uploads') {
+        $current_folder = dirname(__FILE__);
+        $path_segments  = [$current_folder, $upload_subfolder_name, basename($original_filename)];
+        return join(DIRECTORY_SEPARATOR, $path_segments);
+    }
+        
+    function file_is_an_image($temporary_path, $new_path) {
+        $allowed_mime_types      = ['image/jpeg', 'image/png'];
+        $allowed_file_extensions = ['jpg', 'jpeg', 'png'];
+        
+        $actual_file_extension   = pathinfo($new_path, PATHINFO_EXTENSION);
+        $actual_mime_type        = getimagesize($temporary_path)['mime'];
+        
+        $file_extension_is_valid = in_array($actual_file_extension, $allowed_file_extensions);
+        $mime_type_is_valid      = in_array($actual_mime_type, $allowed_mime_types);
+        
+        return $file_extension_is_valid && $mime_type_is_valid;
+    }
+        
+    $image_upload_detected = isset($_FILES['image']) && ($_FILES['image']['error'] === 0);
+        
+    if ($image_upload_detected) {
+        $image_filename       = $_FILES['image']['name'];
+        $temporary_image_path = $_FILES['image']['tmp_name'];
+        $new_image_path       = file_upload_path($image_filename);
+        
+        if (file_is_an_image($temporary_image_path, $new_image_path)) {
+            move_uploaded_file($temporary_image_path, $new_image_path);
+        }
+    }
+
+    if (isset($_POST['inputImageDelete'])) {
+        $query     = "UPDATE shoes SET image = null WHERE id = $id";
+        $statment = $db->prepare($query);
+        $statment->execute();
+
+        unlink(file_upload_path($_POST['inputImageName']));
+    }
+    
     // Checks to see if the title and contenthave at least 1 character, if category is chosen, if price and size are empty or have different character.
     if (empty(trim($headline)) || empty(trim($content)) || $category_sanitize === '' || empty(trim($sanitized_price)) || empty(trim($sanitized_size))) {
         // Directs user to error page.
@@ -34,7 +73,7 @@ if($_POST && isset($_POST['headline']) && isset($_POST['shoecategory']) && isset
     }
 
     // Update
-    if($_POST['command'] == "Update"){
+    if ($_POST['command'] == "Update") {
         $query    = "UPDATE shoes SET headline = :headline, category_id = :shoecategory, price = :price, size = :size, content = :content WHERE id = :id";
         $statment = $db->prepare($query);
         $statment->bindValue(':headline', $headline);
@@ -44,13 +83,22 @@ if($_POST && isset($_POST['headline']) && isset($_POST['shoecategory']) && isset
         $statment->bindValue(':content', $content);
         $statment->bindValue(':id', $id, PDO::PARAM_INT);
         $statment->execute();
-        
+
+        if (isset($_POST['inputImageDelete'])) {
+            $query     = "UPDATE shoes SET image = null WHERE id = $id";
+            $statment = $db->prepare($query);
+            $statment->execute();
+
+            unlink(file_upload_path($_POST['inputImageName']));
+        }
+
         // Redirect after update.
         header("Location: shoeshop.php?id={$id}");
         exit;
     }
+    
     // Delete
-    if($_POST['command'] == "Delete"){
+    if ($_POST['command'] == "Delete") {
         $query    = "DELETE FROM shoes WHERE id = :id";
         $statment = $db->prepare($query);
         $statment->bindValue(':id', $id, PDO::PARAM_INT);
@@ -62,7 +110,7 @@ if($_POST && isset($_POST['headline']) && isset($_POST['shoecategory']) && isset
     }
 }
  
-if(isset($_GET['id'])){
+if (isset($_GET['id'])) {
     // Sanitize the id. Like above but this time from INPUT_GET.
     $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
     
@@ -75,7 +123,7 @@ if(isset($_GET['id'])){
     $statment->execute();
     $shoess = $statment->fetch();
 }
-else{
+else {
     $id = false; // False if we are not UPDATING
 }
 
@@ -153,10 +201,18 @@ else{
                         <?php endwhile ?>
                     </select>
                 </div>
+                
                 <p>
                     <label for="content">Content</label>
                     <textarea name="content" id="content"><?= $shoess['content'] ?></textarea>
                 </p>
+                <?php if(!is_null($shoess['image'])): ?>
+                    <div>
+                        <label for="inputImageDelete">Delete Image?</label>
+                        <input type="hidden" name="inputImageName" value="<?= $shoess['image'] ?>">
+                        <input id="inputImageDelete" type="checkbox" name="inputImageDelete">
+                    </div>
+                <?php endif ?>
                 <p>
                     <input type="hidden" name="id" value="<?= $shoess['id'] ?>" />
                     <button class="update-btn" type="submit" name="command" value="Update" >Update</button>
