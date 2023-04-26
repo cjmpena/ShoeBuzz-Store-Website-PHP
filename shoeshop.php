@@ -5,21 +5,40 @@
     Date: April 25 2023
     Description: The shoeshop file for my final Project.
 ****************/
-
 require('connect.php');
 
-$statement = $db->query("SELECT * FROM shoes ORDER BY id DESC LIMIT 20");
-$shoes = $statement->fetchAll();
+// Set the maximum number of search results per page
+$results_per_page = 5;
+
+// Determine the current page number
+if (isset($_GET['page'])) {
+    $current_page = $_GET['page'];
+} else {
+    $current_page = 1;
+}
+
+// Calculate the limit clause for the SQL query
+$offset = ($current_page - 1) * $results_per_page;
+$limit_clause = "LIMIT $offset, $results_per_page";
 
 // Check if the form has been submitted
 if (isset($_GET['order'])) {
     require('authenticate.php');
     $order = $_GET['order'];
-    $statement = $db->query("SELECT * FROM shoes ORDER BY $order DESC LIMIT 20");
+    $limit_clause = "LIMIT " . (($current_page - 1) * $results_per_page) . ", $results_per_page";
+    $statement = $db->query("SELECT * FROM shoes ORDER BY $order DESC $limit_clause");
 } else {
-    $statement = $db->query("SELECT * FROM shoes ORDER BY id DESC LIMIT 20");
+    $offset = ($current_page - 1) * $results_per_page;
+    $limit_clause = "LIMIT $offset, $results_per_page";
+    $statement = $db->query("SELECT * FROM shoes ORDER BY id DESC $limit_clause");
 }
-$shoes = $statement->fetchAll(); 
+$shoes = $statement->fetchAll();
+
+// Get the total number of search results
+$total_results = $db->query("SELECT COUNT(*) FROM shoes")->fetchColumn();
+
+// Calculate the total number of pages
+$total_pages = ceil($total_results / $results_per_page);
 
 ?>
 
@@ -38,7 +57,7 @@ $shoes = $statement->fetchAll();
 </head>
 <body>
     <header id="header" class="fixed-top header-inner-pages">
-        <div class="container d-flex align-items-center justify-content-between">
+    <div class="container d-flex align-items-center justify-content-between">
         <h1 class="logo"><a href="index.php">The ShoeBuzz Shop</a></h1>
         <nav id="navbar" class="navbar">
             <ul class="nav-menu">
@@ -68,8 +87,9 @@ $shoes = $statement->fetchAll();
             <li><div class="header-nav"><?php require('header.php') ?></div></li>
             </ul>
         </nav>
-        </div>
+    </div>
     </header>
+    <!-- Shoe ordering for admin -->
     <form method="get" class="search-container">
         <label for="order">Sort by</label>
         <select name="order" id="order">
@@ -78,8 +98,10 @@ $shoes = $statement->fetchAll();
             <option value="price">Price</option>
             <option value="size">ShoeSize</option>
         </select>
+        <input type="hidden" name="page" value="<?= $current_page ?>">
         <input type="submit">
     </form>
+    <!-- Display the search results -->
     <?php if(empty($shoes)): ?>
         <h4>No content submitted.</h4>
     <?php else: ?>
@@ -105,6 +127,26 @@ $shoes = $statement->fetchAll();
                     <?php endif ?>
                 </div>
             <?php endforeach ?>
+            <!-- Display the pagination links -->
+            <?php if ($total_pages > 1): ?>
+                <br><div>
+                    <?php if ($current_page > 1): ?>
+                        <h2><a href="?page=<?= $current_page - 1 ?>">Prev</a></h2>
+                    <?php endif ?>
+
+                    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                        <?php if ($i == $current_page): ?>
+                            <h3><span><?= $i ?></span></h3>
+                        <?php else: ?>
+                            <h2><a href="?page=<?= $i ?>"><?= $i ?></a></h2>
+                        <?php endif ?>
+                    <?php endfor; ?>
+                    
+                    <?php if ($current_page < $total_pages): ?>
+                        <h2><a href="?page=<?= $current_page + 1 ?>">Next</a></h2>
+                    <?php endif ?>
+                </div>
+            <?php endif ?>
         </div>
     <?php endif ?>
     <!-- ======= Footer ======= -->
