@@ -103,6 +103,8 @@ if ($_POST && isset($_POST['headline']) && isset($_POST['shoecategory']) && isse
         $statment = $db->prepare($query);
         $statment->bindValue(':id', $id, PDO::PARAM_INT);
         $statment->execute();
+
+        unlink(file_upload_path($_POST['inputImageName']));
     
         // Redirect after delete.
         header("Location: shoeshop.php");
@@ -201,7 +203,6 @@ else {
                         <?php endwhile ?>
                     </select>
                 </div>
-                
                 <p>
                     <label for="content">Content</label>
                     <textarea name="content" id="content"><?= $shoess['content'] ?></textarea>
